@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '../Common/Input'
+import {forces as api} from '../../config/api'
 
 const style = theme => ({
     contain:{
@@ -22,9 +23,17 @@ class Forces extends Component{
     }
 
     componentDidMount(){
-        fetch('https://data.police.uk/api/forces')
-        .then((res)=> res.json())
-        .then((res)=> this.setState({data:res}))
+        this.callingApi()
+    }
+
+    callingApi = async () => {
+        try{
+            const data = await api();
+            this.setState({data})
+        }
+        catch(e){
+            console.log(e.message)
+        }
     }
 
     search = (val) =>{
